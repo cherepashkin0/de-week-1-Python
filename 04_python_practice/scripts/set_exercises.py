@@ -64,9 +64,23 @@ def has_triangle(edges):
     """
     edges is iterable of pairs (u,v). Return True if there exists
     a triangle u-v-w-u. Use sets for adjacency.
-    """
+    """ 
+    # Build adjacency list using sets
+    adj = {}
+    for u, v in edges:
+        if u not in adj:
+            adj[u] = set()
+        if v not in adj:
+            adj[v] = set()
+        adj[u].add(v)
+        adj[v].add(u)
     
-
+    # Check for triangles: for each edge (u,v), check if they have a common neighbor
+    for u, v in edges:
+        # Find common neighbors of u and v
+        if adj[u] & adj[v]:  # Set intersection
+            return True
     
+    return False
 assert has_triangle([("a","b"),("b","c"),("c","a")]) is True
 assert has_triangle([("a","b"),("b","c")]) is False
